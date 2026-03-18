@@ -62,12 +62,13 @@ const ApplyJob = () => {
               Thank you, {name}. {job.company} has received your interest in the{" "}
               {job.title} role.
             </p>
-            <Link
+            <Link to='/'
               style={{
                 display: "inline-block",
                 marginTop: "20px",
                 color: "#222",
                 fontWeight: "600",
+                textDecoration: "underline"
               }}
             >
               Return Home
@@ -87,7 +88,18 @@ const ApplyJob = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  placeholder="apply@example.com"
+                  placeholder="Your full name"
+                />
+              </div>
+              <div style={styles.field}>
+                <label style={styles.label}>Email Address</label>
+                <input
+                  style={styles.input}
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)} 
+                  required
+                  placeholder="email@example.com"
                 />
               </div>
               <div style={styles.field}>
@@ -109,6 +121,55 @@ const ApplyJob = () => {
       </div>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background: "#f8fafc",
+    padding: "20px",
+    fontFamily: "Segoe UI, sans-serif",
+  },
+  card: {
+    background: "#fff",
+    padding: "40px",
+    borderRadius: "16px",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.05)",
+    maxWidth: "450px",
+    width: "100%",
+    border: "1px solid #e2e8f0",
+  },
+  title: {
+    margin: "0 0 8px 0",
+    fontSize: "28px",
+    color: "#1e293b",
+    fontWeight: "700",
+  },
+  subtitle: { margin: "0 0 32px 0", color: "#64748b", fontSize: "18px" },
+  form: { display: "flex", flexDirection: "column", gap: "20px" },
+  field: { display: "flex", flexDirection: "column", gap: "8px" },
+  label: { fontWeight: "600", fontSize: "14px", color: "#475569" },
+  input: {
+    padding: "12px 16px",
+    borderRadius: "8px",
+    border: "1px solid #cbd5e1",
+    fontSize: "16px",
+    outline: "none",
+  },
+  button: {
+    padding: "14px",
+    background: "#1e293b",
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    fontWeight: "600",
+    fontSize: "16px",
+    cursor: "pointer",
+    marginTop: "10px",
+  },
 };
 
 export default ApplyJob;
