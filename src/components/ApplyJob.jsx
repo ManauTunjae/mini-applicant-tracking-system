@@ -5,6 +5,8 @@ import { supabase } from "../supabaseClient";
 const ApplyJob = () => {
     const { jobId } = useParams();
     const [ job, setjob ] = useState(null);
+    const [ loading, setLoading ] = useState(true);
+    const [ submitted, setSubmitted ] = useState(false);
 
     const [ name, setName ] = useState("");
     const [ email, setEmail ] = useState("");
@@ -23,6 +25,29 @@ const ApplyJob = () => {
     };
     fetchJobDetails();
    }, [jobId]); 
+
+   const handleSbumit = async (e) => {
+    e.preventDefault();
+
+    const { error } = await supabase.from("candidates").insert([
+        {
+            name,
+            email,
+            linkedin_url: linkedin,
+            job_id: parseInt(jobId),
+            status: "New"
+        },
+    ]);
+
+    if (error) {
+        alert("Error: " + error.message);
+    } else {
+        setSubmitted(true);
+    }
+   };
+
+   if (loading) return <div style={styles.container}>Loading...</div>;
+   if (!job) return <div style={styles.container}>Job not found.</div>;
 
   return <div></div>;
 };
