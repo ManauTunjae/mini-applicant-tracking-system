@@ -27,3 +27,28 @@ Att jobba med Cursor känns som att ha en senior parprogrammerare. Det är lätt
 ### Nästa steg
 
 Imorgon fokuserar jag på `candidates`-tabellen och att skapa relationer mellan sökande och specifika jobb.
+
+## Dag 1: Kvällsuppdatering – Datarelationer & Refaktorering 📊
+
+### Genomförande
+
+1. **Relationsdatabas:** Skapade `candidates`-tabellen i Supabase och satte upp en `Foreign Key` (`int8`) mot `jobs.id`.
+2. **Data-populering:** Genererade och importerade 30 fiktiva kandidater via SQL Editor för att stresstesta Dashboardens UI och pagination-tänk.
+3. **Refaktorering:** Upptäckte dupliserad logik i `Dashboard.jsx`. Slog ihop `fetchJobs` och `fetchCandidates` till en optimerad `fetchData`-funktion. Detta minskar antalet nätverksanrop och gör appen snabbare.
+4. **UI-förbättringar:** - Implementerade "Conditional Rendering" för kandidatlistan.
+   - Flyttade ut CSS-styling till ett separat `styles`-objekt för ökad läsbarhet (Clean Code).
+
+### Tekniska utmaningar
+
+- **RLS (Row Level Security):** Kandidaterna dök inte upp initialt i gränssnittet trots att de fanns i databasen. Identifierade att RLS behövde konfigureras för `candidates`. Valde att inaktivera RLS tillfälligt för snabbare prototyping, men planerar att implementera strikta policies innan produktion.
+- **Data Mismatch:** Säkerställde att datatyperna matchade (`int8` mot `int8`) mellan tabellerna för att undvika join-fel.
+
+### Reflektion
+
+Det är fascinerande hur snabbt man kan gå från en idé till en fungerande prototyp med Cursor. Den största lärdomen idag har varit att AI:n är fantastisk på att generera kod, men det krävs mänsklig kontroll för att hålla koden "DRY" (Don't Repeat Yourself). Genom att städa upp de dupliserade funktionerna nu har jag sparat mycket teknisk skuld inför morgondagen.
+
+### Status: MILSTOLPE 1 KLAR ✅
+
+- Auth fungerar.
+- Dashboard visar jobb och tillhörande kandidater.
+- Koden är rensad och pusshad till `main`.
