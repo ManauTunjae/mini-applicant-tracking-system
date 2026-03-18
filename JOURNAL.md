@@ -27,3 +27,4 @@ Att jobba med Cursor känns som att ha en senior parprogrammerare. Det är lätt
 ### Nästa steg
 
 Imorgon fokuserar jag på `candidates`-tabellen och att skapa relationer mellan sökande och specifika jobb.
++
