@@ -26,7 +26,7 @@ Att jobba med Cursor känns som att ha en senior parprogrammerare. Det är lätt
 
 ### Nästa steg
 
-Imorgon fokuserar jag på `candidates`-tabellen och att skapa relationer mellan sökande och specifika jobb.
+Fokuserar jag på `candidates`-tabellen och att skapa relationer mellan sökande och specifika jobb.
 
 ## Dag 1: Kvällsuppdatering – Datarelationer & Refaktorering 📊
 
@@ -52,3 +52,32 @@ Det är fascinerande hur snabbt man kan gå från en idé till en fungerande pro
 - Auth fungerar.
 - Dashboard visar jobb och tillhörande kandidater.
 - Koden är rensad och pusshad till `main`.
+
+## Dag 1: Nattpasset – Den kompletta kandidatresan 🚀
+
+### Genomförande & Beslut
+
+1. **Public Apply Page:** Skapade komponenten `ApplyJob.jsx`. Beslutet togs att göra den helt publik (utan auth) för att simulera en riktig jobbansökan där kandidaten inte behöver logga in.
+2. **Dynamisk Routing:** Implementerade `:jobId` i React Router. Detta gör att en enda komponent kan hantera ansökningar för alla tusentals potentiella jobb genom att hämta rätt kontext (`title`, `company`) direkt från databasen baserat på URL:en.
+3. **Data Integrity:** Säkerställde att ansökningar konverteras till rätt datatyp (`parseInt`) innan de skickas till Supabase för att undvika typ-fel mot databasens primärnycklar.
+
+### Tekniska utmaningar & Lärdomar
+
+- **React Hooks Dependency Hell:** Kämpade med linter-varningar i `useCallback` och `useEffect`. Lärde mig vikten av att hålla "dependency-arrayen" ren för att undvika oändliga renderings-loopar, men också när man kan använda `// eslint-disable-line` för att prioritera applikationens stabilitet över strikta regler.
+- **UX-detaljer:** Insåg att en "Return Home"-länk kräver en `to="/"`-prop för att fungera i React Router. Det är de små detaljerna som avgör om en app känns "trasig" eller "proffsig".
+
+### Reflektion inför morgondagen 🧠
+
+Applikationen uppfyller nu kärnkraven för en ATS (Jobbhantering + Ansökningsflöde). Jag har byggt en solid "motor". Imorgon vill jag skifta fokus från funktion till **estetik och avancerad interaktion**.
+
+**Idéer för Dag 2:**
+
+- **Modern Styling:** Gå ifrån standard-UI till en mer "High-end" känsla (Dark mode-option eller glasfomism?).
+- **Drag-and-Drop:** Skulle det vara möjligt att flytta kandidater mellan olika status-steg (Pipeline-vy)?
+- **Analys:** En enkel graf som visar antal ansökningar över tid på Dashboarden.
+
+### Status: MILSTOLPE 2 KLAR 🏆
+
+- Komplett "End-to-End" flöde (Rekryterare -> Kandidat -> Databas -> Dashboard).
+- Clean code-refaktorering genomförd på båda huvudkomponenterna.
+- Git-historiken är ren och väldokumenterad.
