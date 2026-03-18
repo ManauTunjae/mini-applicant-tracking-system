@@ -15,7 +15,7 @@ const ApplyJob = () => {
         const { data, error } = await supabase
         .from("jobs")
         .select("title, company")
-        .eg("id", jobId)
+        .eq("id", jobId)
         .single();
 
         if (!error) setjob(data);
