@@ -7,45 +7,53 @@
 ## ## 📸 Visual Overview
 
 ### ### 🏢 Recruiter Dashboard
+
 Hantera dina jobbannonser och se kandidaternas framfart i realtid.
-![Dashboard Preview](./assets/dashboard-preview.jpg)
+![Dashboard Preview]
+(./src/assets/dashboard-preview.png)
 
 ### ### 🔐 Secure Entry
+
 Ett modernt gränssnitt för autentisering som skyddar din rekryteringsdata.
-![Login Preview](./assets/login-preview.jpg)
+![Login Preview]
+(./src/assets/login-preview.jpg)
 
 ### ### 📝 Candidate Experience
+
 En ren och intuitiv ansökningssida designad för att maximera konverteringen av talanger.
-![Apply Preview](./assets/apply-preview.jpg)
+![Apply Preview]
+(./src/assets/apply-preview.jpg)
 
 ## ## ✨ Key Features
 
-* **🔒 Secure Authentication:** Fullt inloggningssystem via Supabase Auth för att skydda kunddata.
-* **📊 Recruiter Dashboard:** Kraftfull överblick för att skapa, hantera och arkivera jobbannonser.
-* **🤖 AI-Powered Analysis:** Simulerad AI-screening som poängsätter kandidater baserat på profilmatchning (stöder även bulk-analys).
-* **📝 Public Job Portal:** En publik `/apply`-sida där kandidater enkelt kan skicka in sina ansökningar.
-* **🛡️ Soft Delete Strategy:** Arkiveringsfunktion som döljer avslutade jobb men behåller värdefull historik i databasen.
-* **💎 Premium UI/UX:** Responsiv design byggd med Inter-font, mjuka skuggor och ett intuitivt flöde.
+- **🔒 Secure Authentication:** Fullt inloggningssystem via Supabase Auth för att skydda kunddata.
+- **📊 Recruiter Dashboard:** Kraftfull överblick för att skapa, hantera och arkivera jobbannonser.
+- **🤖 AI-Powered Analysis:** Simulerad AI-screening som poängsätter kandidater baserat på profilmatchning (stöder även bulk-analys).
+- **📝 Public Job Portal:** En publik `/apply`-sida där kandidater enkelt kan skicka in sina ansökningar.
+- **🛡️ Soft Delete Strategy:** Arkiveringsfunktion som döljer avslutade jobb men behåller värdefull historik i databasen.
+- **💎 Premium UI/UX:** Responsiv design byggd med Inter-font, mjuka skuggor och ett intuitivt flöde.
 
 ---
 
 ## ## 🛠 Tech Stack
 
-* **Frontend:** React.js (Vite)
-* **Backend/Database:** Supabase (PostgreSQL)
-* **Routing:** React Router v6
-* **AI Logic:** Simulerad NLP-logik för kandidatbedömning.
-* **Styling:** Modern CSS-in-JS med fokus på en ren och professionell estetik.
+- **Frontend:** React.js (Vite)
+- **Backend/Database:** Supabase (PostgreSQL)
+- **Routing:** React Router v6
+- **AI Logic:** Simulerad NLP-logik för kandidatbedömning.
+- **Styling:** Modern CSS-in-JS med fokus på en ren och professionell estetik.
 
 ---
 
 ## ## 🚀 Getting Started
 
 ### ### Prerequisites
-* Node.js installerat på din dator.
-* Ett projekt uppsatt i Supabase.
+
+- Node.js installerat på din dator.
+- Ett projekt uppsatt i Supabase.
 
 ### ### Installation
+
 1.  Klona detta repository.
 2.  Installera alla paket:
     ```bash
@@ -65,15 +73,17 @@ En ren och intuitiv ansökningssida designad för att maximera konverteringen av
 
 ## ## 🧠 Technical Reflections & Architecture
 
-Projektet är byggt med **skalbarhet** i åtanke. Genom att använda `is_deleted`-flaggor istället för permanenta raderingar (Soft Delete) har jag skapat ett system som är redo för framtida data-analytics. 
+Projektet är byggt med **skalbarhet** i åtanke. Genom att använda `is_deleted`-flaggor istället för permanenta raderingar (Soft Delete) har jag skapat ett system som är redo för framtida data-analytics.
 
 ### ### Future Roadmap 🚀
-* **📄 PDF-Parsing:** Integration med Supabase Storage för att läsa in och analysera riktiga CV-filer.
-* **🔍 Advanced Filtering:** Möjlighet att filtrera kandidater på kompetens och erfarenhetsnivå.
-* **📧 Automated Feedback:** Systemet skickar automatiskt svar till kandidater vid statusändringar.
+
+- **📄 PDF-Parsing:** Integration med Supabase Storage för att läsa in och analysera riktiga CV-filer.
+- **🔍 Advanced Filtering:** Möjlighet att filtrera kandidater på kompetens och erfarenhetsnivå.
+- **📧 Automated Feedback:** Systemet skickar automatiskt svar till kandidater vid statusändringar.
 
 ---
 
 ## ## 👩🏻‍💻 Utvecklat av
+
 **Manau Tunjae** – Fullstack Developer Student
-*"En passion för att kombinera ren kod med användarvänliga AI-lösningar."*
+_"En passion för att kombinera ren kod med användarvänliga AI-lösningar."_
