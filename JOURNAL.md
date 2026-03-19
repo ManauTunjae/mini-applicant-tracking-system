@@ -81,3 +81,43 @@ Applikationen uppfyller nu kärnkraven för en ATS (Jobbhantering + Ansökningsf
 - Komplett "End-to-End" flöde (Rekryterare -> Kandidat -> Databas -> Dashboard).
 - Clean code-refaktorering genomförd på båda huvudkomponenterna.
 - Git-historiken är ren och väldokumenterad.
+
+## Dag 2: Morgonpasset - AI-kraft & Dashboard-perfektion 🤖💎
+
+### Status: MILSTOLPE 2 KLAR ✅
+
+Dashboard är nu en komplett rekryteringshubb med avancerad funktionalitet.
+
+AI-motorn (simulerad) levererar insikter både individuellt och i bulk.
+
+Data Integrity: 32 unika testkandidater "seedade" via SQL för en professionell demo.
+
+### Genomförande & Beslut
+
+🚀 Bulk AI-Analysis: Implementerade analyzeAllForJob. Genom att använda Promise.all kan vi uppdatera hundratals kandidater samtidigt i databasen. Detta är appens "Wow-faktor".
+
+⚖️ Stabil Grid-layout: Skiftade till en 1600px max-bredd med 4rem padding. Detta löste problemet med att sidan kändes "trång" och gav utrymme för 3 snygga kolumner.
+
+🔄 Status Management: Implementerade en direkt dropdown-koppling till Supabase. Rekryteraren kan nu flytta kandidater mellan steg (Interview, Technical Test, Hired) utan att lämna sidan.
+
+📍 UI Consistency: Lade till .order('id', { ascending: true }) på alla kandidatanrop. Detta stoppar "hoppande" element och ger en lugn och proffsig användarupplevelse.
+
+### Tekniska utmaningar & Lärdomar
+
+The "form" vs "from" trap: Lärde mig vikten av noggrannhet i syntax när ett litet stavfel i .from("candidates") kan sänka en hel uppdateringsfunktion.
+
+Asynkron Loop-hantering: Att använda .map() tillsammans med Promise.all för databasuppdateringar är betydligt mer effektivt än att köra enstaka anrop i en vanlig loop.
+
+Demo-logik: Genom att basera den simulerade AI-scoren på experience.length skapade jag en logisk koppling som är lätt att förklara för Jonas, istället för att bara använda helt slumpmässiga siffror.
+
+### Reflektion inför eftermiddagen ☕️
+
+Dashboarden är nu "Feature Complete" för en MVP. Den känns snabb, smart och stabil. Nu skiftar jag fokus till Kandidatupplevelsen. Om Dashboarden är motorn, så är ApplyJob.jsx ansiktet utåt. Jag vill att kandidaten ska mötas av samma "High-end" känsla som rekryteraren.
+
+### Idéer för "Premium-look" (Eftermiddagspasset):
+
+✨ Micro-interactions: Lägga till små animationer (hover-effekter) på ansökningsknappen.
+
+📝 Form Validation: Se till att kandidaten inte kan skicka tomma fält (UX-standard).
+
+✅ Success State: Skapa en dedikerad "Tack-sida" som bekräftar ansökan med en proffsig ikon.
