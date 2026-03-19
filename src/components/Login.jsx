@@ -85,11 +85,17 @@ const Login = () => {
 // --- PREMIUM STYLES ---
 const styles = {
   container: {
-    height: "100vh",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
+    width: "100vw",
+    height: "100vh",
+    margin: "-8px", 
+    padding: "0",
+    boxSizing: "border-box",
+    backgroundImage:
+      "radial-gradient(at 0% 0%, rgba(47, 50, 210, 0.15) 0, transparent 50%), radial-gradient(at 100% 0%, rgba(47, 50, 210, 0.15) 0, transparent 50%)",
+    backgroundColor: "#f8fafc",
     fontFamily: "'Inter', system-ui, sans-serif",
   },
   card: {

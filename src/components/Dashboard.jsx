@@ -327,7 +327,10 @@ const Dashboard = () => {
 const styles = {
   container: {
     minHeight: "100vh",
-    background: "#f8fafc",
+    margin: "-8px", // Drar ut containern till kanten av body
+    boxSizing: "border-box",
+    backgroundImage:
+      "radial-gradient(at 0% 0%, rgba(47, 50, 210, 0.15) 0, transparent 50%), radial-gradient(at 100% 0%, rgba(47, 50, 210, 0.15) 0, transparent 50%)",
     padding: "40px 4rem",
     fontFamily: "'Inter', sans-serif",
   },
@@ -351,7 +354,7 @@ const styles = {
     border: "1px solid #e2e8f0",
     borderRadius: "16px",
     padding: "32px",
-    boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)",
+    boxShadow: "0 5px 6px -3px rgba(0, 0, 0, 0.42)",
   },
 
   // Nya layout-styles

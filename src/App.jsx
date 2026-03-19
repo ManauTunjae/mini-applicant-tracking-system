@@ -7,14 +7,7 @@ import ApplyJob from "./components/ApplyJob";
 function App() {
   return (
     <Router>
-      <div
-        style={{
-          minHeight: "100vh",
-          backgroundColor: "#f3f4f6",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+      <div>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />

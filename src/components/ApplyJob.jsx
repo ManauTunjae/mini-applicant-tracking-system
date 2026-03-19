@@ -150,12 +150,17 @@ const ApplyJob = () => {
 // --- PREMIUM STYLES ---
 const styles = {
   container: {
-    maxHeight: "100vh",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    background: "#f8fafc", // Samma som Dashboard
-    padding: "40px 20px",
+    width: "100vw",
+    height: "100vh",
+    margin: "-8px",
+    padding: "0",
+    boxSizing: "border-box",
+    backgroundImage:
+      "radial-gradient(at 0% 0%, rgba(47, 50, 210, 0.15) 0, transparent 50%), radial-gradient(at 100% 0%, rgba(47, 50, 210, 0.15) 0, transparent 50%)",
+    backgroundColor: "#f8fafc",
     fontFamily: "'Inter', system-ui, sans-serif",
   },
   card: {
