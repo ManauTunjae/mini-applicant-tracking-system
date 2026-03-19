@@ -4,6 +4,20 @@
 
 ---
 
+## ## 📸 Visual Overview
+
+### ### 🏢 Recruiter Dashboard
+Hantera dina jobbannonser och se kandidaternas framfart i realtid.
+![Dashboard Preview](./assets/dashboard-preview.jpg)
+
+### ### 🔐 Secure Entry
+Ett modernt gränssnitt för autentisering som skyddar din rekryteringsdata.
+![Login Preview](./assets/login-preview.jpg)
+
+### ### 📝 Candidate Experience
+En ren och intuitiv ansökningssida designad för att maximera konverteringen av talanger.
+![Apply Preview](./assets/apply-preview.jpg)
+
 ## ## ✨ Key Features
 
 * **🔒 Secure Authentication:** Fullt inloggningssystem via Supabase Auth för att skydda kunddata.
