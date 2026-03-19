@@ -13,7 +13,6 @@ const Dashboard = () => {
   const [showCandidatesFor, setShowCandidatesFor] = useState({});
 
   const navigate = useNavigate();
-
   // --- LOGIK: HÄMTA DATA ---
   // KOMMENTAR: Vi har slagit ihop fetchJobs och kandidat-hämtningen till en funktion.
   // Detta kallas "Single Source of Truth" och förhindrar att vi gör onödiga anrop.
@@ -65,7 +64,7 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
-  }, []); 
+  }, []);
 
   // 2. useEffect lyssnar på fetchData
   useEffect(() => {
@@ -116,6 +115,26 @@ const Dashboard = () => {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/");
+  };
+
+  const analyzeCandidate = async (candidateId, experience) => {
+    // Anropa till en AI-tjänst senare men för demon simulerar vi en analys:
+    const mockAiScores = [
+      "Match: 85% - Strong technical background.",
+      "Match: 40% - Lacks required leadership experience.",
+      "Match: 95% - Perfect fit for this senior role!",
+    ];
+    const ramdomScore =
+      mockAiScores[Math.floor(Math.random() * mockAiScores.length)];
+
+    const { error } = await supabase
+      .from("candidates")
+      .update({ ai_score: ramdomScore })
+      .eq("id", candidateId);
+
+    if (!error) {
+      fetchData();
+    }
   };
 
   // --- RENDERING (JSX) ---
@@ -200,15 +219,41 @@ const Dashboard = () => {
                     <ul style={styles.list}>
                       {candidatesByJob[job.id].map((candidate) => (
                         <li key={candidate.id} style={styles.listItem}>
-                          <span style={{ fontWeight: 500 }}>
-                            {candidate.name}
-                          </span>
-                          <a
-                            href={`mailto:${candidate.email}`}
-                            style={styles.emailLink}
+                          {/* Övre raden med namn och mejl */}
+                          <div style={styles.candidateHeader}>
+                            <span style={{ fontWeight: 600, color: "#1e293b" }}>
+                              {candidate.name}
+                            </span>
+                            <a
+                              href={`mailto:${candidate.email}`}
+                              style={styles.emailLink}
+                            >
+                              {candidate.email}
+                            </a>
+                          </div>
+
+                          {/* AI-analys rutan (visas bara om den finns) */}
+                          {candidate.ai_score && (
+                            <div style={styles.aiBadge}>
+                              <strong>🤖 AI Analysis:</strong>{" "}
+                              {candidate.ai_score}
+                            </div>
+                          )}
+
+                          {/* AI-Knappen */}
+                          <button
+                            onClick={() =>
+                              analyzeCandidate(
+                                candidate.id,
+                                candidate.experience,
+                              )
+                            }
+                            style={styles.aiButton}
                           >
-                            {candidate.email}
-                          </a>
+                            {candidate.ai_score
+                              ? "Refresh Analysis"
+                              : "Analyze with AI ✨"}
+                          </button>
                         </li>
                       ))}
                     </ul>
@@ -347,6 +392,43 @@ const styles = {
   },
   emailLink: { color: "#2563eb", textDecoration: "none", fontSize: 13 },
   noData: { color: "#8e98a5", fontSize: 14, fontStyle: "italic" },
+
+  listItem: {
+    padding: "16px",
+    borderBottom: "1px solid #f1f5f9",
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+  },
+  candidateHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+  },
+  aiBadge: {
+    background: "#f0fdf4",
+    borderLeft: "4px solid #16a34a",
+    padding: "10px 14px",
+    borderRadius: "8px",
+    fontSize: "13px",
+    color: "#166534",
+    marginTop: "5px",
+    lineHeight: "1.5",
+  },
+  aiButton: {
+    alignSelf: "flex-start",
+    padding: "8px 16px",
+    background: "linear-gradient(45deg, #4f46e5, #9333ea)",
+    color: "white",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontSize: "12px",
+    fontWeight: "600",
+    transition: "transform 0.1s ease",
+    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+  },
 };
 
 export default Dashboard;
