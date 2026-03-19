@@ -15,7 +15,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   // --- LOGIK: HÄMTA DATA ---
-  // Vi hämtar både jobb och kandidater för att minimera antalet anrop till databasen.
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
@@ -27,11 +26,11 @@ const Dashboard = () => {
         return;
       }
 
-      // 1. Hämta jobb skapade av den inloggade användaren
       const { data: jobsData, error: jobsError } = await supabase
         .from("jobs")
         .select("*")
         .eq("customer_id", user.id)
+        .eq("is_deleted", false) // Hämtar bara icke-arkiverade jobb
         .order("id", { ascending: false });
 
       if (jobsError) throw jobsError;
@@ -39,7 +38,6 @@ const Dashboard = () => {
       const jobIds = jobsData?.map((j) => j.id) || [];
       let candsByJob = {};
 
-      // 2. Hämta kandidater för alla relevanta jobb (sorterat på ID för stabilt UI)
       if (jobIds.length > 0) {
         const { data: allCandidates, error: cErr } = await supabase
           .from("candidates")
@@ -49,7 +47,6 @@ const Dashboard = () => {
 
         if (cErr) throw cErr;
 
-        // Gruppera kandidaterna efter jobb_id i ett objekt
         candsByJob = allCandidates.reduce((acc, cand) => {
           const jid = cand.job_id;
           if (!acc[jid]) acc[jid] = [];
@@ -73,7 +70,6 @@ const Dashboard = () => {
 
   // --- HANDLERS ---
 
-  // Hanterar expandering av kandidatlistan
   const handleToggleCandidates = (jobId) => {
     setShowCandidatesFor((prev) => ({
       ...prev,
@@ -81,7 +77,6 @@ const Dashboard = () => {
     }));
   };
 
-  // Skapar en ny jobbannons
   const handleAddJob = async (e) => {
     e.preventDefault();
     setAdding(true);
@@ -104,20 +99,38 @@ const Dashboard = () => {
     setAdding(false);
   };
 
-  // AI-Analys för enskild kandidat (Simulerad logik baserat på textlängd)
+  const handleDeleteJob = async (jobId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure that you want to archive this job? This will remove it from your active list!",
+    );
+
+    if (confirmDelete) {
+      // FIX: Ändrat från .select() till .update() för korrekt Soft Delete
+      const { error } = await supabase
+        .from("jobs")
+        .update({ is_deleted: true })
+        .eq("id", jobId);
+
+      if (!error) {
+        fetchData();
+      } else {
+        alert("Could not archive job: " + error.message);
+      }
+    }
+  };
+
   const analyzeCandidate = async (candidateId, experience) => {
     if (!experience) {
       alert("No bio provided for analysis.");
       return;
     }
-
     const textLength = experience.length;
-    let matchScore = "";
-
-    if (textLength > 100) matchScore = "Match: 90% - Detailed profile ✨";
-    else if (textLength > 30) matchScore = "Match: 65% - Solid foundation 🤔";
-    else matchScore = "Match: 30% - Brief profile 📞";
-
+    let matchScore =
+      textLength > 100
+        ? "Match: 90% - Detailed profile ✨"
+        : textLength > 30
+          ? "Match: 65% - Solid foundation 🤔"
+          : "Match: 30% - Brief profile 📞";
     await supabase
       .from("candidates")
       .update({ ai_score: matchScore })
@@ -125,11 +138,9 @@ const Dashboard = () => {
     fetchData();
   };
 
-  // Bulk AI-Analys för att analysera alla ansökande för ett jobb samtidigt
   const analyzeAllForJob = async (jobId) => {
     const candidates = candidatesByJob[jobId];
     if (!candidates) return;
-
     const updates = candidates.map((cand) => {
       const textLength = cand.experience?.length || 0;
       let score =
@@ -143,12 +154,10 @@ const Dashboard = () => {
         .update({ ai_score: score })
         .eq("id", cand.id);
     });
-
     await Promise.all(updates);
     fetchData();
   };
 
-  // Uppdaterar rekryteringsstatus (t.ex. från New till Interview)
   const updateCandidateStatus = async (candidateId, newStatus) => {
     const { error } = await supabase
       .from("candidates")
@@ -162,13 +171,10 @@ const Dashboard = () => {
     navigate("/");
   };
 
-  // --- RENDERING ---
   return (
     <div style={styles.container}>
       <div style={styles.header}>
         <h1 style={styles.title}>ATS Dashboard</h1>
-
-        {/* Form för att skapa nya jobb */}
         <form onSubmit={handleAddJob} style={styles.form}>
           <input
             type="text"
@@ -190,7 +196,6 @@ const Dashboard = () => {
             {adding ? "Saving..." : "Create Job"}
           </button>
         </form>
-
         <button onClick={handleLogout} style={styles.buttonSecondary}>
           Logout
         </button>
@@ -202,22 +207,37 @@ const Dashboard = () => {
         <div style={styles.grid}>
           {jobs.map((job) => (
             <div key={job.id} style={styles.card}>
-              <div style={styles.cardHeader}>
-                <span style={styles.jobTitleText}>{job.title}</span>
-                <span style={styles.badge}>
-                  {candidatesByJob[job.id]?.length || 0} applicants
-                </span>
-              </div>
-              <div style={styles.companyName}>{job.company}</div>
+              {/* NY LAYOUT: Titel & Arkiv-knapp */}
+              <div style={styles.cardHeaderTop}>
+                <div style={styles.titleGroup}>
+                  <span style={styles.jobTitleText}>{job.title}</span>
+                  <span style={styles.companyName}>{job.company}</span>
 
-              <div
-                style={{
-                  ...styles.statusTag,
-                  background: job.status === "Open" ? "#e8f7ee" : "#fcecea",
-                  color: job.status === "Open" ? "#14804a" : "#d63447",
-                }}
-              >
-                {job.status}
+                  {/* Badges under titeln */}
+                  <div style={styles.badgeGroup}>
+                    <span style={styles.badge}>
+                      {candidatesByJob[job.id]?.length || 0} applicants
+                    </span>
+                    <div
+                      style={{
+                        ...styles.statusTag,
+                        background:
+                          job.status === "Open" ? "#e8f7ee" : "#fcecea",
+                        color: job.status === "Open" ? "#14804a" : "#d63447",
+                      }}
+                    >
+                      {job.status}
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => handleDeleteJob(job.id)}
+                  style={styles.archiveButton}
+                  title="Archive Job"
+                >
+                  🗑️ Arkivera
+                </button>
               </div>
 
               <button
@@ -237,7 +257,6 @@ const Dashboard = () => {
                       Analyze All with AI 🤖✨
                     </button>
                   )}
-
                   {candidatesByJob[job.id]?.length > 0 ? (
                     <ul style={styles.list}>
                       {candidatesByJob[job.id].map((candidate) => (
@@ -252,7 +271,6 @@ const Dashboard = () => {
                                 {candidate.email}
                               </a>
                             </div>
-
                             <select
                               value={candidate.status || "New"}
                               onChange={(e) =>
@@ -273,13 +291,11 @@ const Dashboard = () => {
                               <option value="Rejected">Rejected 🔴</option>
                             </select>
                           </div>
-
                           {candidate.ai_score && (
                             <div style={styles.aiBadge}>
                               <strong>AI Score:</strong> {candidate.ai_score}
                             </div>
                           )}
-
                           <button
                             onClick={() =>
                               analyzeCandidate(
@@ -337,8 +353,24 @@ const styles = {
     padding: "32px",
     boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)",
   },
+
+  // Nya layout-styles
+  cardHeaderTop: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: "10px",
+  },
+  titleGroup: { display: "flex", flexDirection: "column", gap: "4px" },
   jobTitleText: { fontSize: "22px", fontWeight: "700", color: "#1e293b" },
-  companyName: { color: "#64748b", fontSize: "16px", marginBottom: "20px" },
+  companyName: { color: "#64748b", fontSize: "16px" },
+  badgeGroup: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    marginTop: "12px",
+  },
+
   badge: {
     background: "#f1f5f9",
     color: "#475569",
@@ -349,14 +381,30 @@ const styles = {
   },
   statusTag: {
     display: "inline-block",
-    padding: "5px 15px",
+    padding: "4px 12px",
     borderRadius: "20px",
-    fontSize: "14px",
+    fontSize: "13px",
     fontWeight: "600",
   },
+  archiveButton: {
+    background: "none",
+    border: "none",
+    color: "#ef4444",
+    fontSize: "13px",
+    fontWeight: "600",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
+    opacity: 0.7,
+    transition: "opacity 0.2s",
+    boxShadow: "0 3px 7px rgba(34, 16, 107, 0.16)",
+    borderRadius: "0.2rem",
+  },
+
   buttonAction: {
     width: "100%",
-    marginTop: "20px",
+    marginTop: "24px",
     background: "#ffffff",
     border: "1px solid #e2e8f0",
     borderRadius: "10px",
@@ -365,11 +413,10 @@ const styles = {
     fontSize: "14px",
     color: "#475569",
     cursor: "pointer",
-    transition: "all 0.2s ease",
-    boxShadow: "0 3px 5px rgba(34, 16, 107, 0.55)",
+    boxShadow: "0 3px 7px rgba(34, 16, 107, 0.55)",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
+    justifyCenter: "center",
     gap: "8px",
   },
   candidateSection: {
@@ -433,7 +480,7 @@ const styles = {
     borderRadius: "8px",
     fontWeight: "600",
     cursor: "pointer",
-    boxShadow: "0 3px 5px rgba(34, 16, 107, 0.55)",
+    boxShadow: "0 3px 7px rgba(34, 16, 107, 0.55)",
   },
   bulkAiButton: {
     width: "100%",
@@ -445,7 +492,7 @@ const styles = {
     borderRadius: "8px",
     fontWeight: "700",
     cursor: "pointer",
-    boxShadow: "0 3px 5px rgba(34, 16, 107, 0.55)",
+    boxShadow: "0 3px 7px rgba(34, 16, 107, 0.55)",
   },
   form: {
     display: "flex",
@@ -469,7 +516,7 @@ const styles = {
     borderRadius: "8px",
     fontWeight: "600",
     cursor: "pointer",
-    boxShadow: "0 3px 5px rgba(34, 16, 107, 0.55)",
+    boxShadow: "0 3px 7px rgba(34, 16, 107, 0.55)",
   },
   buttonSecondary: {
     padding: "10px 20px",
@@ -478,7 +525,7 @@ const styles = {
     border: "none",
     borderRadius: "8px",
     cursor: "pointer",
-    boxShadow: "0 3px 5px rgba(34, 16, 107, 0.55)",
+    boxShadow: "0 3px 7px rgba(34, 16, 107, 0.55)",
   },
   loading: {
     fontSize: "18px",
