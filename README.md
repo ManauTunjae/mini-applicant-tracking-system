@@ -9,20 +9,17 @@
 ### ### 🏢 Recruiter Dashboard
 
 Hantera dina jobbannonser och se kandidaternas framfart i realtid.
-![Dashboard Preview]
-(./src/assets/dashboard-preview.png)
+<img src="./src/assets/dashboard-preview.png" width="800" alt="Dashboard">
 
 ### ### 🔐 Secure Entry
 
 Ett modernt gränssnitt för autentisering som skyddar din rekryteringsdata.
-![Login Preview]
-(./src/assets/login-preview.jpg)
+<img src="./src/assets/login-preview.png" width="800" alt="Login Screen">
 
 ### ### 📝 Candidate Experience
 
 En ren och intuitiv ansökningssida designad för att maximera konverteringen av talanger.
-![Apply Preview]
-(./src/assets/apply-preview.jpg)
+<img src="./src/assets/apply-preview.png" width="800" alt="Application Form">
 
 ## ## ✨ Key Features
 
