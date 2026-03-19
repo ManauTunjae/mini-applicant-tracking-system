@@ -11,6 +11,7 @@ const ApplyJob = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [linkedin, setLinkedin] = useState("");
+  const [experience, setExperience] = useState("");
 
   useEffect(() => {
     const fetchJobDetails = async () => {
@@ -34,6 +35,7 @@ const ApplyJob = () => {
         name,
         email,
         linkedin_url: linkedin,
+        experience,
         job_id: parseInt(jobId),
         status: "New",
       },
@@ -62,13 +64,14 @@ const ApplyJob = () => {
               Thank you, {name}. {job.company} has received your interest in the{" "}
               {job.title} role.
             </p>
-            <Link to='/'
+            <Link
+              to="/"
               style={{
                 display: "inline-block",
                 marginTop: "20px",
                 color: "#222",
                 fontWeight: "600",
-                textDecoration: "underline"
+                textDecoration: "underline",
               }}
             >
               Return Home
@@ -97,7 +100,7 @@ const ApplyJob = () => {
                   style={styles.input}
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)} 
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="email@example.com"
                 />
@@ -110,6 +113,20 @@ const ApplyJob = () => {
                   value={linkedin}
                   onChange={(e) => setLinkedin(e.target.value)}
                   placeholder="https://linkedin.com/in/..."
+                />
+              </div>
+              <div style={styles.field}>
+                <label style={styles.label}>Short Bio / Your Experiences</label>
+                <textarea
+                  style={{
+                    ...styles.input,
+                    minHeight: "100px",
+                    resize: "vertical",
+                  }}
+                  value={experience}
+                  onChange={(e) => setExperience(e.target.value)}
+                  required
+                  placeholder="Tell us why you are a great fit for this role..."
                 />
               </div>
               <button type="submit" style={styles.button}>
@@ -158,6 +175,7 @@ const styles = {
     border: "1px solid #cbd5e1",
     fontSize: "16px",
     outline: "none",
+    fontFamily: "Segoe UI, Arial, sans-serif",
   },
   button: {
     padding: "14px",
