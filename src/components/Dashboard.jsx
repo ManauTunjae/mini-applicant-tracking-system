@@ -236,7 +236,7 @@ const Dashboard = () => {
                   style={styles.archiveButton}
                   title="Archive Job"
                 >
-                  🗑️ Arkivera
+                  🗑️ Archive
                 </button>
               </div>
 
