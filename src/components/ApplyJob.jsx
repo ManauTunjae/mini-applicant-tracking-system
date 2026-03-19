@@ -212,14 +212,15 @@ const styles = {
   },
   button: {
     padding: "14px",
-    background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
+    background:
+      "linear-gradient(135deg,rgba(14, 13, 61, 0.78) 0%,rgb(59, 30, 40) 100%)",
     color: "#fff",
     border: "none",
     borderRadius: "12px",
     fontWeight: "700",
     fontSize: "16px",
     cursor: "pointer",
-    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+    boxShadow: "0 3px 7px rgba(34, 16, 107, 0.55)",
     marginTop: "8px",
   },
   // Success state styles

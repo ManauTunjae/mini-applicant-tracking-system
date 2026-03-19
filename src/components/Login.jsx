@@ -24,95 +24,163 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     const { error } = await supabase.auth.signUp({ email, password });
-    if (error) alert("Kolla din mejl för bekräftelse!");
-    else alert("Användare skapad! Kolla din mejl.");
+    if (error) alert("Please check your email for confirmation!");
+    else alert("User created! Check your email to verify.");
     setLoading(false);
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "400px",
-          padding: "30px",
-          background: "white",
-          borderRadius: "12px",
-          boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
-          textAlign: "center",
-        }}
-      >
-        <h1
-          style={{ marginBottom: "20px", color: "#1f2937", fontSize: "2.5rem" }}
-        >
-          Applicant Tracking System
-        </h1>
-        <form style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{
-              padding: "12px",
-              borderRadius: "6px",
-              border: "1px solid #d1d5db",
-              fontSize: "1.2rem",
-            }}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{
-              padding: "12px",
-              borderRadius: "6px",
-              border: "1px solid #d1d5db",
-              fontSize: "1.2rem",
-            }}
-          />
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <div style={styles.iconContainer}>＠</div>
+        <h1 style={styles.title}>Mini-ATS</h1>
+        <p style={styles.subtitle}>Smart Applicant Tracking for Teams</p>
+
+        <form style={styles.form}>
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Email Address</label>
+            <input
+              type="email"
+              placeholder="name@company.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={styles.input}
+              required
+            />
+          </div>
+
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Password</label>
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={styles.input}
+              required
+            />
+          </div>
+
           <button
             onClick={handleLogin}
             disabled={loading}
-            style={{
-              padding: "1rem",
-              background: "#2563eb",
-              color: "white",
-              border: "none",
-              borderRadius: "0.6rem",
-              cursor: "pointer",
-              fontWeight: "bold",
-              fontSize: "1.2rem",
-            }}
+            style={styles.loginButton}
           >
-            {loading ? "Loading..." : "LOGIN"}
+            {loading ? "Signing in..." : "Sign In"}
           </button>
+
           <button
             onClick={handleSignUp}
             disabled={loading}
-            style={{
-              background: "none",
-              border: "none",
-              color: "#4b5563",
-              cursor: "pointer",
-              fontSize: "1rem",
-            }}
+            style={styles.signUpButton}
           >
-            Inget konto? Registrera dig här
+            New here? <span style={styles.linkText}>Create an account</span>
           </button>
         </form>
       </div>
     </div>
   );
+};
+
+// --- PREMIUM STYLES ---
+const styles = {
+  container: {
+    height: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
+    fontFamily: "'Inter', system-ui, sans-serif",
+  },
+  card: {
+    width: "100%",
+    maxWidth: "420px",
+    padding: "48px",
+    background: "white",
+    borderRadius: "24px",
+    boxShadow:
+      "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+    textAlign: "center",
+    border: "1px solid #f1f5f9",
+  },
+  iconContainer: {
+    fontSize: "40px",
+    marginBottom: "16px",
+    background: "#f1f5f9",
+    width: "70px",
+    height: "70px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: "20px",
+    margin: "0 auto 20px auto",
+    boxShadow: "0 3px 10px rgba(34, 16, 107, 0.55)",
+  },
+  title: {
+    margin: "0 0 8px 0",
+    color: "#0f172a",
+    fontSize: "28px",
+    fontWeight: "800",
+    letterSpacing: "-0.025em",
+  },
+  subtitle: {
+    margin: "0 0 32px 0",
+    color: "#64748b",
+    fontSize: "16px",
+    fontWeight: "500",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+    textAlign: "left",
+  },
+  inputGroup: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "8px",
+  },
+  label: {
+    fontSize: "14px",
+    fontWeight: "600",
+    color: "#475569",
+    marginLeft: "4px",
+  },
+  input: {
+    padding: "12px 16px",
+    borderRadius: "12px",
+    border: "1px solid #cbd5e1",
+    fontSize: "15px",
+    outline: "none",
+    background: "#fcfcfc",
+    transition: "all 0.2s ease",
+  },
+  loginButton: {
+    padding: "14px",
+    background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)",
+    color: "white",
+    border: "none",
+    borderRadius: "12px",
+    cursor: "pointer",
+    fontWeight: "700",
+    fontSize: "16px",
+    boxShadow: "0 3px 5px rgba(34, 16, 107, 0.55)",
+    marginTop: "10px",
+  },
+  signUpButton: {
+    background: "none",
+    border: "none",
+    color: "#64748b",
+    cursor: "pointer",
+    fontSize: "14px",
+    marginTop: "8px",
+    fontWeight: "500",
+  },
+  linkText: {
+    color: "#4f46e5",
+    fontWeight: "600",
+    textDecoration: "underline",
+  },
 };
 
 export default Login;

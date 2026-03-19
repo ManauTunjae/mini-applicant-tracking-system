@@ -87,16 +87,14 @@ const Dashboard = () => {
     setAdding(true);
     const { data: userData } = await supabase.auth.getUser();
 
-    const { error: insertError } = await supabase
-      .from("jobs")
-      .insert([
-        {
-          title: jobTitle,
-          company: company,
-          customer_id: userData.user.id,
-          status: "Open",
-        },
-      ]);
+    const { error: insertError } = await supabase.from("jobs").insert([
+      {
+        title: jobTitle,
+        company: company,
+        customer_id: userData.user.id,
+        status: "Open",
+      },
+    ]);
 
     if (!insertError) {
       setJobTitle("");
@@ -358,13 +356,21 @@ const styles = {
   },
   buttonAction: {
     width: "100%",
-    marginTop: "16px",
-    background: "#fff",
+    marginTop: "20px",
+    background: "#ffffff",
     border: "1px solid #e2e8f0",
-    borderRadius: "8px",
-    padding: "10px",
+    borderRadius: "10px",
+    padding: "12px",
     fontWeight: "600",
+    fontSize: "14px",
+    color: "#475569",
     cursor: "pointer",
+    transition: "all 0.2s ease",
+    boxShadow: "0 3px 5px rgba(34, 16, 107, 0.55)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "8px",
   },
   candidateSection: {
     marginTop: "20px",
@@ -427,6 +433,7 @@ const styles = {
     borderRadius: "8px",
     fontWeight: "600",
     cursor: "pointer",
+    boxShadow: "0 3px 5px rgba(34, 16, 107, 0.55)",
   },
   bulkAiButton: {
     width: "100%",
@@ -438,6 +445,7 @@ const styles = {
     borderRadius: "8px",
     fontWeight: "700",
     cursor: "pointer",
+    boxShadow: "0 3px 5px rgba(34, 16, 107, 0.55)",
   },
   form: {
     display: "flex",
@@ -461,6 +469,7 @@ const styles = {
     borderRadius: "8px",
     fontWeight: "600",
     cursor: "pointer",
+    boxShadow: "0 3px 5px rgba(34, 16, 107, 0.55)",
   },
   buttonSecondary: {
     padding: "10px 20px",
@@ -469,6 +478,7 @@ const styles = {
     border: "none",
     borderRadius: "8px",
     cursor: "pointer",
+    boxShadow: "0 3px 5px rgba(34, 16, 107, 0.55)",
   },
   loading: {
     fontSize: "18px",
