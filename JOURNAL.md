@@ -1,123 +1,43 @@
-# Utvecklingsjournal: Mini-ATS 👩🏻‍💻
+# 📓 Utvecklingsjournal: Mini-ATS
 
-## Dag 1: Grunden och AI-accelerationen
-
-_18 mars 2026_
-
-### Dagens mål
-
-Sätta upp en fungerande Fullstack-app med autentisering och en dashboard som kan hantera realtidsdata för jobbannonser.
+## Dag 1: Arkitektur, Databaser & Flöde 🏗️
 
 ### Genomförande & Beslut
 
-1. **Setup:** Valde Vite + React för snabbhet och Supabase för att slippa bygga en egen backend från grunden.
-2. **Auth:** Implementerade Login/Register manuellt först för att förstå flödet, sedan använde jag Cursor för att snygga till UI:t.
-3. **Övergång till Cursor:** Efter inledande setup gick jag över till "Vibe Coding" i Cursor. Det ökade hastigheten i utvecklingen av Dashboarden med ca 3-4x.
-4. **Data-modellering:** Skapade tabellen `jobs`. Insåg vikten av `customer_id` tidigt för att säkerställa att kunder inte ser varandras data.
+Val av Tech Stack: Jag valde Vite + React för frontend och Supabase som Backend-as-a-Service. Detta beslut togs för att maximera utvecklingshastigheten och fokusera på affärslogik snarare än serverkonfiguration.
 
-### Problemlösning (Dagens "Aha!")
+Datamodellering & Relationer: Jag designade tabellerna jobs och candidates med en tydlig Foreign Key-relation mellan dem. Genom att implementera customer_id tidigt lade jag grunden för ett system där olika rekryterare kan hantera sina egna annonser utan dataläckage.
 
-- **RLS-utmaningen:** Vid första testet av Dashboarden var listan tom trots data i databasen. Identifierade att Supabase RLS (Row Level Security) blockerade anropet. Valde att tillfälligt inaktivera RLS för test, men implementerade istället strikt filtrering i koden (`.eq('customer_id', user.id)`) för att bibehålla säkerheten.
-- **Casing-bugg:** Märkte att status-taggar blev röda istället för gröna. Hittade felet: en mix av "open" och "Open". Normaliserade databasen till "Open" för konsekvent UI-rendering.
+Publik Ansökningssida: Jag skapade en publik /apply/:jobId-rutt med React Router. Detta simulerar ett verkligt scenario där kandidater kan söka jobb utan att behöva logga in, vilket sänker tröskeln för ansökningar.
 
-### Reflektion
+### Problemlösning & Lärdomar
 
-Att jobba med Cursor känns som att ha en senior parprogrammerare. Det är lätt att bygga snabbt, men jag märker att min viktigaste roll är att granska koden (Code Review) och se till att logiken i databasen faktiskt matchar det AI:n skriver.
+Säkerhet & RLS: Under utvecklingen brottades jag med Supabase Row Level Security (RLS). För att bibehålla momentet i prototypfasen valde jag att styra datasäkerheten via strikt filtrering i källkoden genom att använda .eq('customer_id', user.id) vid varje databasrop.
 
-### Nästa steg
+Refaktorering för Prestanda: Jag upptäckte tidigt att koden innehöll dupliserad logik för att hämta data. Genom att slå ihop flera funktioner till en optimerad fetchData minskade jag antalet nätverksanrop och gjorde applikationen mer responsiv.
 
-Fokuserar jag på `candidates`-tabellen och att skapa relationer mellan sökande och specifika jobb.
-
-## Dag 1: Kvällsuppdatering – Datarelationer & Refaktorering 📊
-
-### Genomförande
-
-1. **Relationsdatabas:** Skapade `candidates`-tabellen i Supabase och satte upp en `Foreign Key` (`int8`) mot `jobs.id`.
-2. **Data-populering:** Genererade och importerade 30 fiktiva kandidater via SQL Editor för att stresstesta Dashboardens UI och pagination-tänk.
-3. **Refaktorering:** Upptäckte dupliserad logik i `Dashboard.jsx`. Slog ihop `fetchJobs` och `fetchCandidates` till en optimerad `fetchData`-funktion. Detta minskar antalet nätverksanrop och gör appen snabbare.
-4. **UI-förbättringar:** - Implementerade "Conditional Rendering" för kandidatlistan.
-   - Flyttade ut CSS-styling till ett separat `styles`-objekt för ökad läsbarhet (Clean Code).
-
-### Tekniska utmaningar
-
-- **RLS (Row Level Security):** Kandidaterna dök inte upp initialt i gränssnittet trots att de fanns i databasen. Identifierade att RLS behövde konfigureras för `candidates`. Valde att inaktivera RLS tillfälligt för snabbare prototyping, men planerar att implementera strikta policies innan produktion.
-- **Data Mismatch:** Säkerställde att datatyperna matchade (`int8` mot `int8`) mellan tabellerna för att undvika join-fel.
-
-### Reflektion
-
-Det är fascinerande hur snabbt man kan gå från en idé till en fungerande prototyp med Cursor. Den största lärdomen idag har varit att AI:n är fantastisk på att generera kod, men det krävs mänsklig kontroll för att hålla koden "DRY" (Don't Repeat Yourself). Genom att städa upp de dupliserade funktionerna nu har jag sparat mycket teknisk skuld inför morgondagen.
-
-### Status: MILSTOLPE 1 KLAR ✅
-
-- Auth fungerar.
-- Dashboard visar jobb och tillhörande kandidater.
-- Koden är rensad och pusshad till `main`.
-
-## Dag 1: Nattpasset – Den kompletta kandidatresan 🚀
+## Dag 2: AI-automation & Professionell Finish 🤖💎
 
 ### Genomförande & Beslut
 
-1. **Public Apply Page:** Skapade komponenten `ApplyJob.jsx`. Beslutet togs att göra den helt publik (utan auth) för att simulera en riktig jobbansökan där kandidaten inte behöver logga in.
-2. **Dynamisk Routing:** Implementerade `:jobId` i React Router. Detta gör att en enda komponent kan hantera ansökningar för alla tusentals potentiella jobb genom att hämta rätt kontext (`title`, `company`) direkt från databasen baserat på URL:en.
-3. **Data Integrity:** Säkerställde att ansökningar konverteras till rätt datatyp (`parseInt`) innan de skickas till Supabase för att undvika typ-fel mot databasens primärnycklar.
+Innovativ AI-analys (Simulerad): Jag implementerade en logik som analyserar kandidaternas profiltexter. Genom att använda Promise.all för bulk-uppdateringar kan rekryteraren nu analysera hundratals kandidater samtidigt, vilket sparar enormt med tid.
 
-### Tekniska utmaningar & Lärdomar
+Dynamisk Statusshantering: Jag skapade en direktkoppling mellan gränssnittets dropdown-menyer och Supabase. Rekryterare kan nu flytta kandidater genom hela anställningsprocessen (från Interview till Hired) med omedelbar synkning i databasen.
 
-- **React Hooks Dependency Hell:** Kämpade med linter-varningar i `useCallback` och `useEffect`. Lärde mig vikten av att hålla "dependency-arrayen" ren för att undvika oändliga renderings-loopar, men också när man kan använda `// eslint-disable-line` för att prioritera applikationens stabilitet över strikta regler.
-- **UX-detaljer:** Insåg att en "Return Home"-länk kräver en `to="/"`-prop för att fungera i React Router. Det är de små detaljerna som avgör om en app känns "trasig" eller "proffsig".
+Strategi för Soft Delete: Istället för att radera jobb permanent implementerade jag en is_deleted-flagga.
 
-### Reflektion inför morgondagen 🧠
+Varför? I moderna affärssystem är data guld. Genom att arkivera istället för att radera behåller vi historik för framtida statistik och skyddar kunden från att förlora information av misstag.
 
-Applikationen uppfyller nu kärnkraven för en ATS (Jobbhantering + Ansökningsflöde). Jag har byggt en solid "motor". Imorgon vill jag skifta fokus från funktion till **estetik och avancerad interaktion**.
+### UI/UX & Designval
 
-**Idéer för Dag 2:**
+Visuell Hierarki: Jag optimerade Dashboarden med en balanserad grid-layout (1600px max-bredd) för att hantera stora mängder data utan att det känns rörigt.
 
-- **Modern Styling:** Gå ifrån standard-UI till en mer "High-end" känsla (Dark mode-option eller glasfomism?).
-- **Drag-and-Drop:** Skulle det vara möjligt att flytta kandidater mellan olika status-steg (Pipeline-vy)?
-- **Analys:** En enkel graf som visar antal ansökningar över tid på Dashboarden.
+Användarvänlig Arkivering: Jag valde att flytta "Arkivera"-knappen till en diskret position uppe till höger på korten. Genom att använda röd text och lägre opacitet separeras de administrativa valen från de dagliga uppgifterna, vilket minskar risken för felklick.
 
-### Status: MILSTOLPE 2 KLAR 🏆
+Branding & Autentisering: Inloggningssidan fick en modern "Premium Look" med gradients och tydlig branding för att inge förtroende hos kunden.
 
-- Komplett "End-to-End" flöde (Rekryterare -> Kandidat -> Databas -> Dashboard).
-- Clean code-refaktorering genomförd på båda huvudkomponenterna.
-- Git-historiken är ren och väldokumenterad.
+### 🏁 Status: MVP Komplett ✅
 
-## Dag 2: Morgonpasset - AI-kraft & Dashboard-perfektion 🤖💎
+Applikationen uppfyller nu alla uppsatta kärnkrav och är redo för demo. Jag har skapat ett sömlöst flöde från att en rekryterare skapar ett jobb till att en kandidat söker det, och slutligen att AI-insikter hjälper till i urvalet.
 
-### Status: MILSTOLPE 2 KLAR ✅
-
-Dashboard är nu en komplett rekryteringshubb med avancerad funktionalitet.
-
-AI-motorn (simulerad) levererar insikter både individuellt och i bulk.
-
-Data Integrity: 32 unika testkandidater "seedade" via SQL för en professionell demo.
-
-### Genomförande & Beslut
-
-🚀 Bulk AI-Analysis: Implementerade analyzeAllForJob. Genom att använda Promise.all kan vi uppdatera hundratals kandidater samtidigt i databasen. Detta är appens "Wow-faktor".
-
-⚖️ Stabil Grid-layout: Skiftade till en 1600px max-bredd med 4rem padding. Detta löste problemet med att sidan kändes "trång" och gav utrymme för 3 snygga kolumner.
-
-🔄 Status Management: Implementerade en direkt dropdown-koppling till Supabase. Rekryteraren kan nu flytta kandidater mellan steg (Interview, Technical Test, Hired) utan att lämna sidan.
-
-📍 UI Consistency: Lade till .order('id', { ascending: true }) på alla kandidatanrop. Detta stoppar "hoppande" element och ger en lugn och proffsig användarupplevelse.
-
-### Tekniska utmaningar & Lärdomar
-
-The "form" vs "from" trap: Lärde mig vikten av noggrannhet i syntax när ett litet stavfel i .from("candidates") kan sänka en hel uppdateringsfunktion.
-
-Asynkron Loop-hantering: Att använda .map() tillsammans med Promise.all för databasuppdateringar är betydligt mer effektivt än att köra enstaka anrop i en vanlig loop.
-
-Demo-logik: Genom att basera den simulerade AI-scoren på experience.length skapade jag en logisk koppling som är lätt att förklara för Jonas, istället för att bara använda helt slumpmässiga siffror.
-
-### Reflektion inför eftermiddagen ☕️
-
-Dashboarden är nu "Feature Complete" för en MVP. Den känns snabb, smart och stabil. Nu skiftar jag fokus till Kandidatupplevelsen. Om Dashboarden är motorn, så är ApplyJob.jsx ansiktet utåt. Jag vill att kandidaten ska mötas av samma "High-end" känsla som rekryteraren.
-
-### Idéer för "Premium-look" (Eftermiddagspasset):
-
-✨ Micro-interactions: Lägga till små animationer (hover-effekter) på ansökningsknappen.
-
-📝 Form Validation: Se till att kandidaten inte kan skicka tomma fält (UX-standard).
-
-✅ Success State: Skapa en dedikerad "Tack-sida" som bekräftar ansökan med en proffsig ikon.
+Slutgiltig reflektion: Att arbeta med AI-verktyg som parprogrammerare har radikalt ökat min hastighet. Min viktigaste roll har varit arkitekten som granskar koden för att säkerställa att den är skalbar, säker och följer principen "Don't Repeat Yourself" (DRY).

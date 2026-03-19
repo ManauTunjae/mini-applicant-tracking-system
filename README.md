@@ -1,41 +1,65 @@
-# Mini-ATS (Applicant Tracking System) 🚀
+# 🤖 Mini-ATS: Smart Applicant Tracking System
 
-Detta är ett modernt, lättviktigt rekryteringsverktyg byggt som ett arbetsprov för Jonas. Projektet fokuserar på snabb utveckling med AI-hävstång (Vibe Coding), säkerhet och skalbarhet.
+**Mini-ATS** är en modern, fullstack-applikation byggd för att förenkla rekryteringsprocessen. Med fokus på snabbhet, AI-insikter och ett rent användargränssnitt hjälper den rekryterare att hantera jobbannonser och kandidater effektivt.
 
-## 🌟 Huvudfunktioner (Hittills)
+---
 
-- **Fullstack Auth:** Säker inloggning och registrering via Supabase Auth.
-- **Multi-tenancy:** Arkitektur som separerar data mellan olika kunder (konton). En användare ser endast sina egna jobbannonser.
-- **Real-time Dashboard:** En vy som hämtar och visar aktiva jobbannonser direkt från databasen.
-- **Job Creation:** Interaktivt formulär för att skapa nya jobbannonser med omedelbar uppdatering av gränssnittet.
+## ## ✨ Key Features
 
-## 🛠 Tech Stack
+* **🔒 Secure Authentication:** Fullt inloggningssystem via Supabase Auth för att skydda kunddata.
+* **📊 Recruiter Dashboard:** Kraftfull överblick för att skapa, hantera och arkivera jobbannonser.
+* **🤖 AI-Powered Analysis:** Simulerad AI-screening som poängsätter kandidater baserat på profilmatchning (stöder även bulk-analys).
+* **📝 Public Job Portal:** En publik `/apply`-sida där kandidater enkelt kan skicka in sina ansökningar.
+* **🛡️ Soft Delete Strategy:** Arkiveringsfunktion som döljer avslutade jobb men behåller värdefull historik i databasen.
+* **💎 Premium UI/UX:** Responsiv design byggd med Inter-font, mjuka skuggor och ett intuitivt flöde.
 
-- **Frontend:** React (Vite)
-- **Backend/Database:** Supabase (PostgreSQL)
-- **Styling:** Modern Inline CSS / CSS-in-JS
-- **Utvecklingsverktyg:** Cursor AI (för ökad utvecklingshastighet och Code Review)
+---
 
-## 👩🏻‍💻 Utvecklingsprocess & "Vibe Coding"
+## ## 🛠 Tech Stack
 
-Projektet har utvecklats med en AI-first-metodik:
+* **Frontend:** React.js (Vite)
+* **Backend/Database:** Supabase (PostgreSQL)
+* **Routing:** React Router v6
+* **AI Logic:** Simulerad NLP-logik för kandidatbedömning.
+* **Styling:** Modern CSS-in-JS med fokus på en ren och professionell estetik.
 
-1. **Initial Setup:** Grundstruktur i React och manuell konfiguration av Supabase-klienten.
-2. **AI-Acceleration:** Implementering av Cursor AI för att snabbt generera komponenter och logik.
-3. **Mänsklig kontroll:** Manuell finjustering av dataintegritet (t.ex. normalisering av jobbstatus) och säkerhetspolicys (RLS).
+---
 
-## 📊 Databasstruktur (Supabase)
+## ## 🚀 Getting Started
 
-Tabellen `jobs` innehåller följande fält:
+### ### Prerequisites
+* Node.js installerat på din dator.
+* Ett projekt uppsatt i Supabase.
 
-- `id`: Unikt ID (Auto-genererat)
-- `title`: Jobbtitel
-- `company`: Företagsnamn
-- `status`: Nuvarande status (Default: 'Open')
-- `customer_id`: Koppling till den inloggade användarens unika ID.
+### ### Installation
+1.  Klona detta repository.
+2.  Installera alla paket:
+    ```bash
+    npm install
+    ```
+3.  Konfigurera miljövariabler i en `.env`-fil:
+    ```env
+    VITE_SUPABASE_URL=din_supabase_url
+    VITE_SUPABASE_ANON_KEY=din_supabase_anon_key
+    ```
+4.  Kör applikationen lokalt:
+    ```bash
+    npm run dev
+    ```
 
-## 🚀 Nästa milstolpe
+---
 
-- Implementering av `candidates`-tabellen.
-- Koppling av kandidater till specifika jobb-ID:n.
-- Funktion för att ändra status på jobb (Open/Closed).
+## ## 🧠 Technical Reflections & Architecture
+
+Projektet är byggt med **skalbarhet** i åtanke. Genom att använda `is_deleted`-flaggor istället för permanenta raderingar (Soft Delete) har jag skapat ett system som är redo för framtida data-analytics. 
+
+### ### Future Roadmap 🚀
+* **📄 PDF-Parsing:** Integration med Supabase Storage för att läsa in och analysera riktiga CV-filer.
+* **🔍 Advanced Filtering:** Möjlighet att filtrera kandidater på kompetens och erfarenhetsnivå.
+* **📧 Automated Feedback:** Systemet skickar automatiskt svar till kandidater vid statusändringar.
+
+---
+
+## ## 👩🏻‍💻 Utvecklat av
+**Manau Tunjae** – Fullstack Developer Student
+*"En passion för att kombinera ren kod med användarvänliga AI-lösningar."*
