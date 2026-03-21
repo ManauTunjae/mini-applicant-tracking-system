@@ -4,14 +4,14 @@
 
 ---
 
-## ## 📸 Visual Overview
+## 📸 Visual Overview
 
-### ### 🏢 Recruiter Dashboard
+### 🏢 Recruiter Dashboard
 
 Hantera dina jobbannonser och se kandidaternas framfart i realtid.
 <img src="./src/assets/dashboard-preview.png" width="800" alt="Dashboard">
 
-### ### 🔐 Secure Entry
+### 🔐 Secure Entry
 
 Ett modernt gränssnitt för autentisering som skyddar din rekryteringsdata.
 <img src="./src/assets/login-preview.png" width="800" alt="Login Screen">
@@ -21,12 +21,12 @@ Ett modernt gränssnitt för autentisering som skyddar din rekryteringsdata.
 Implemented a secure login and registration flow using **Supabase Auth**.
 <img src="./src/assets/signup-preview.png" width="800" alt="Signup Screen">
 
-### ### 📝 Candidate Experience
+### 📝 Candidate Experience
 
 En ren och intuitiv ansökningssida designad för att maximera konverteringen av talanger.
 <img src="./src/assets/apply-preview.png" width="800" alt="Application Form">
 
-## ## ✨ Key Features
+## ✨ Key Features
 
 - **🔒 Secure Authentication:** Fullt inloggningssystem via Supabase Auth för att skydda kunddata.
 - **📊 Recruiter Dashboard:** Kraftfull överblick för att skapa, hantera och arkivera jobbannonser.
@@ -37,7 +37,7 @@ En ren och intuitiv ansökningssida designad för att maximera konverteringen av
 
 ---
 
-## ## 🛠 Tech Stack
+## 🛠 Tech Stack
 
 - **Frontend:** React.js (Vite)
 - **Backend/Database:** Supabase (PostgreSQL)
@@ -47,14 +47,14 @@ En ren och intuitiv ansökningssida designad för att maximera konverteringen av
 
 ---
 
-## ## 🚀 Getting Started
+## 🚀 Getting Started
 
-### ### Prerequisites
+### Prerequisites
 
 - Node.js installerat på din dator.
 - Ett projekt uppsatt i Supabase.
 
-### ### Installation
+### Installation
 
 1.  Klona detta repository.
 2.  Installera alla paket:
@@ -73,7 +73,7 @@ En ren och intuitiv ansökningssida designad för att maximera konverteringen av
 
 ---
 
-## ## 🧠 Technical Reflections & Architecture
+## 🧠 Technical Reflections & Architecture
 
 Projektet är byggt med **skalbarhet** i åtanke. Genom att använda `is_deleted`-flaggor istället för permanenta raderingar (Soft Delete) har jag skapat ett system som är redo för framtida data-analytics.
 
@@ -85,7 +85,7 @@ Projektet är byggt med **skalbarhet** i åtanke. Genom att använda `is_deleted
 
 ---
 
-## ## 👩🏻‍💻 Utvecklat av
+## 👩🏻‍💻 Utvecklat av
 
 **Manau Tunjae** – Fullstack Developer Student
 _"En passion för att kombinera ren kod med användarvänliga AI-lösningar."_
