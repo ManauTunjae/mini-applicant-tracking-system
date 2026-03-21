@@ -16,6 +16,11 @@ Hantera dina jobbannonser och se kandidaternas framfart i realtid.
 Ett modernt gränssnitt för autentisering som skyddar din rekryteringsdata.
 <img src="./src/assets/login-preview.png" width="800" alt="Login Screen">
 
+### 🔑 Authentication & Profiles
+
+Implemented a secure login and registration flow using **Supabase Auth**.
+<img src="./src/assets/signup-preview.png" width="800" alt="Signup Screen">
+
 ### ### 📝 Candidate Experience
 
 En ren och intuitiv ansökningssida designad för att maximera konverteringen av talanger.
