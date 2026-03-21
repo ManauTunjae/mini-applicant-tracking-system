@@ -5,38 +5,75 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState(""); 
+  const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) alert(error.message);
-    else navigate("/dashboard");
-    setLoading(false);
-  };
 
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const { error } = await supabase.auth.signUp({ email, password });
-    if (error) alert("Please check your email for confirmation!");
-    else alert("User created! Check your email to verify.");
+    if (isSignUp) {
+      // --- SKAPA KONTO ---
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: fullName }, // Sparar namnet i metadata
+        },
+      });
+      if (error) alert(error.message);
+      else alert("Check your email for confirmation!");
+    } else {
+      // --- LOGGA IN ---
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) alert(error.message);
+      else navigate("/dashboard");
+    }
     setLoading(false);
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <div style={styles.iconContainer}>＠</div>
-        <h1 style={styles.title}>Mini-ATS</h1>
-        <p style={styles.subtitle}>Smart Applicant Tracking for Teams</p>
+        {/* DYNAMISK IKON: Plus för Sign Up, @ för Login */}
+        <div style={{
+          ...styles.iconContainer,
+          background: isSignUp ? "#ecfdf5" : "#f1f5f9", 
+          color: isSignUp ? "#059669" : "#0f172a",
+          boxShadow: isSignUp ? "0 3px 10px rgba(16, 185, 129, 0.3)" : "0 3px 10px rgba(34, 16, 107, 0.3)"
+        }}>
+          {isSignUp ? "＋" : "＠"}
+        </div>
 
-        <form style={styles.form}>
+        {/* DYNAMISK RUBRIK */}
+        <h1 style={styles.title}>
+          {isSignUp ? "Join Mini-ATS" : "Welcome Back"}
+        </h1>
+        <p style={styles.subtitle}>
+          {isSignUp ? "Start managing your hiring pipeline" : "Smart Applicant Tracking for Teams"}
+        </p>
+
+        <form style={styles.form} onSubmit={handleSubmit}>
+          {/* NAMNFÄLT: Visas bara vid Sign Up */}
+          {isSignUp && (
+            <div style={styles.inputGroup}>
+              <label style={styles.label}>Full Name</label>
+              <input
+                type="text"
+                placeholder="John Doe"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                style={styles.input}
+                required
+              />
+            </div>
+          )}
+
           <div style={styles.inputGroup}>
             <label style={styles.label}>Email Address</label>
             <input
@@ -61,26 +98,36 @@ const Login = () => {
             />
           </div>
 
-          <button
-            onClick={handleLogin}
-            disabled={loading}
-            style={styles.loginButton}
+          {/* DYNAMISK KNAPP: Grön för Sign Up, Lila för Login */}
+          <button 
+            type="submit" 
+            disabled={loading} 
+            style={{
+              ...styles.loginButton,
+              background: isSignUp 
+                ? "linear-gradient(135deg, #059669 0%, #10b981 100%)" 
+                : "linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)"
+            }}
           >
-            {loading ? "Signing in..." : "Sign In"}
-          </button>
-
-          <button
-            onClick={handleSignUp}
-            disabled={loading}
-            style={styles.signUpButton}
-          >
-            New here? <span style={styles.linkText}>Create an account</span>
+            {loading ? "Processing..." : isSignUp ? "Create My Account" : "Sign In to Dashboard"}
           </button>
         </form>
+
+        {/* VÄXLINGSKNAPP: Byter mellan lägena */}
+        <button
+          onClick={() => setIsSignUp(!isSignUp)}
+          style={styles.signUpButton}
+        >
+          {isSignUp ? (
+            <>Already have an account? <span style={styles.linkText}>Sign In</span></>
+          ) : (
+            <>New here? <span style={styles.linkText}>Create an account</span></>
+          )}
+        </button>
       </div>
     </div>
   );
-};
+}
 
 // --- PREMIUM STYLES ---
 const styles = {
@@ -188,5 +235,6 @@ const styles = {
     textDecoration: "underline",
   },
 };
+
 
 export default Login;
